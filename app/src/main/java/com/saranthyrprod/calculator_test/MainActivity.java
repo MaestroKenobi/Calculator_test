@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -47,53 +48,51 @@ public class MainActivity extends AppCompatActivity {
         EditText eNT = findViewById(R.id.editTextNumber);
         String expression = eNT.getText().toString();
         ArrayList<Float> test = new ArrayList<>();
+        ArrayList<Float> subtest = new ArrayList<>();
         float result = 0;
         String[] temp = expression.split("\\+|\\*|/|-");
-        String temp2 = expression.replaceAll("[0-9]|\\.", "");
-        char[] tmp1 = temp2.toCharArray();
-        List<Character> actions = new ArrayList<>();
-        for (char c : tmp1) {
-            actions.add(c);
+        String[] temp1 = expression.split("[0-9]|\\.");
+        ArrayList<String> tmp1 = new ArrayList<>();
+        ArrayList<String> tmp2 = new ArrayList<>();
+        for (int i = 0; i < temp.length; i++) {
+            test.add(Float.parseFloat(temp[i]));
         }
-        int j = actions.size();
-        while (actions.isEmpty() == false && test.size() > 1) {
-            for (int i = 0; i < j; ) {
-                if (actions.get(i) == '*') {
+        for (int i = 0; i < temp1.length; i++) {
+            tmp1.add(temp1[i]);
+        }
+        for (int i = 0; i < tmp1.size()-1; i++) {
+            System.out.println(tmp1.get(i));
+            if (tmp1.get(i) == "*" | tmp1.get(i) == "/") {
+                if (tmp1.get(i) == "*") {
                     float tmp = test.get(i) * test.get(i + 1);
-                    test.set(i, tmp);
-                    test.remove(i + 1);
-                    actions.remove(i);
-                    i = i;
-                } else if (actions.get(i) == '/') {
+                    subtest.add(tmp);
+                }
+                if (tmp1.get(i) == "/") {
                     float tmp = test.get(i) / test.get(i + 1);
-                    test.set(i, tmp);
-                    test.remove(i + 1);
-                    actions.remove(i);
-                    i = i;
-                } else {
-                    i++;
+                    subtest.add(tmp);
                 }
             }
-            for (int i = 0; i < j;)  {
-                if (actions.get(i) == '+') {
-                    float tmp = test.get(i) + test.get(i + 1);
-                    test.set(i, tmp);
-                    test.remove(i + 1);
-                    actions.remove(i);
-                    i = i;
-                } else if (actions.get(i) == '-') {
-                    float tmp = test.get(i) - test.get(i + 1);
-                    test.set(i, tmp);
-                    test.remove(i + 1);
-                    actions.remove(i);
-                    i = i;
-                } else {
-                    i++;
-                }
+            else {
+                subtest.add(test.get(i));
+                tmp2.add(temp1[i]);
             }
         }
-        result = test.get(0);
-        eNT.setText(Float.toString(result));
+
+        for (int i = 0; i < tmp2.size()-1; i++) {
+            System.out.println(tmp1.get(i));
+            if (tmp2.get(i) == "+" | tmp2.get(i) == "-") {
+                if (tmp2.get(i) == "+") {
+                    float tmp = subtest.get(i) + subtest.get(i+1);
+                    result = result + tmp;
+                }
+                if (tmp2.get(i) == "-") {
+                    float tmp = subtest.get(i) - subtest.get(i+1);
+                    result = result + tmp;
+                }
+            }
+            eNT.setText(Float.toString(result));
+        }
+
 //        if (expression.contains("+")) {
 //            String[] temp = expression.split("\\+");
 //            int tempL = temp.length;
@@ -140,8 +139,8 @@ public class MainActivity extends AppCompatActivity {
 //            eNT.setText(Float.toString(result));
 //        }
         if (eNT.getText().toString().endsWith(".0")) {
-            String[] temp1 = eNT.getText().toString().split("\\.");
-            eNT.setText(temp1[0]);
+            String[] temp2 = eNT.getText().toString().split("\\.");
+            eNT.setText(temp2[0]);
         }
 
     }
