@@ -62,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
                 tmp1.add(subtemp[i]);
             }
         }
+        if (eNT.getText().toString().startsWith("-") == false) {
+            tmp2.add("+");
+        }
         for (int i = 0; i < tmp1.size(); i++) {
             if (tmp1.get(i).equals("*") || tmp1.get(i).equals("/")) {
                 if (tmp1.get(i).equals("*")) {
@@ -79,30 +82,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        for (int i = 0; i < tmp2.size();) {
+        for (int i = 0; i < tmp2.size(); i++) {
             if (tmp2.get(i).equals("+") || tmp2.get(i).equals("-")) {
-                if (tmp2.size() != 1) {
-                    if (tmp2.get(i).equals("+")) {
-                        float tmp = subtest.get(i) + subtest.get(i+1);
-                        subtest.set(i, tmp);
-                        subtest.remove(i+1);
-
-                    }
-                    if (tmp2.get(i).equals("-")) {
-                        float tmp = subtest.get(i) - subtest.get(i+1);
-                        subtest.set(i, tmp);
-                        subtest.remove(i+1);
-                    }
+                if (tmp2.get(i).equals("+")) {
+                    result = result + subtest.get(i);
                 }
-                else {
-                    if (tmp2.get(i).equals("+")) {
-                        float tmp = subtest.get(i) + subtest.get(i+1);
-                        result = result + tmp;
-                    }
-                    if (tmp2.get(i).equals("-")) {
-                        float tmp = subtest.get(i) - subtest.get(i+1);
-                        result = result + tmp;
-                    }
+                if (tmp2.get(i).equals("-")) {
+                    result = result - subtest.get(i);
                 }
             }
             eNT.setText(Float.toString(result));
