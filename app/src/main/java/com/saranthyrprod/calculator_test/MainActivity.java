@@ -4,12 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -51,41 +49,45 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Float> subtest = new ArrayList<>();
         float result = 0;
         String[] temp = expression.split("\\+|\\*|/|-");
-        String[] temp1 = expression.split("[0-9]|\\.");
-        ArrayList<String> tmp1 = new ArrayList<>();
-        ArrayList<String> tmp2 = new ArrayList<>();
+        String temp1 = expression.replaceAll("\\.", "");
+        String[] subtemp = temp1.split("[0-9]");
+        List<String> tmp1 = new ArrayList<>();
+        List<String> tmp2 = new ArrayList<>();
         for (int i = 0; i < temp.length; i++) {
             test.add(Float.parseFloat(temp[i]));
         }
-        for (int i = 0; i < temp1.length; i++) {
-            tmp1.add(temp1[i]);
+
+        for (int i = 0; i < subtemp.length; i++) {
+            if (subtemp[i].equals("*") || subtemp[i].equals("-") || subtemp[i].equals("+") || subtemp[i].equals("/")) {
+                tmp1.add(subtemp[i]);
+            }
         }
-        for (int i = 0; i < tmp1.size()-1; i++) {
-            System.out.println(tmp1.get(i));
-            if (tmp1.get(i) == "*" | tmp1.get(i) == "/") {
-                if (tmp1.get(i) == "*") {
+        for (int i = 0; i < tmp1.size(); i++) {
+            if (tmp1.get(i).equals("*") || tmp1.get(i).equals("/")) {
+                if (tmp1.get(i).equals("*")) {
                     float tmp = test.get(i) * test.get(i + 1);
                     subtest.add(tmp);
+                    System.out.println(tmp);
                 }
-                if (tmp1.get(i) == "/") {
+                if (tmp1.get(i).equals("/")) {
                     float tmp = test.get(i) / test.get(i + 1);
                     subtest.add(tmp);
+                    System.out.println(tmp);
                 }
             }
             else {
                 subtest.add(test.get(i));
-                tmp2.add(temp1[i]);
+                tmp2.add(tmp1.get(i));
             }
         }
 
-        for (int i = 0; i < tmp2.size()-1; i++) {
-            System.out.println(tmp1.get(i));
-            if (tmp2.get(i) == "+" | tmp2.get(i) == "-") {
-                if (tmp2.get(i) == "+") {
+        for (int i = 0; i < tmp2.size(); i++) {
+            if (tmp2.get(i).equals("+") || tmp2.get(i).equals("-")) {
+                if (tmp2.get(i).equals("+")) {
                     float tmp = subtest.get(i) + subtest.get(i+1);
                     result = result + tmp;
                 }
-                if (tmp2.get(i) == "-") {
+                if (tmp2.get(i).equals("-")) {
                     float tmp = subtest.get(i) - subtest.get(i+1);
                     result = result + tmp;
                 }
