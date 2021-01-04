@@ -67,12 +67,10 @@ public class MainActivity extends AppCompatActivity {
                 if (tmp1.get(i).equals("*")) {
                     float tmp = test.get(i) * test.get(i + 1);
                     subtest.add(tmp);
-                    System.out.println(tmp);
                 }
                 if (tmp1.get(i).equals("/")) {
                     float tmp = test.get(i) / test.get(i + 1);
                     subtest.add(tmp);
-                    System.out.println(tmp);
                 }
             }
             else {
@@ -81,15 +79,30 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        for (int i = 0; i < tmp2.size(); i++) {
+        for (int i = 0; i < tmp2.size();) {
             if (tmp2.get(i).equals("+") || tmp2.get(i).equals("-")) {
-                if (tmp2.get(i).equals("+")) {
-                    float tmp = subtest.get(i) + subtest.get(i+1);
-                    result = result + tmp;
+                if (tmp2.size() != 1) {
+                    if (tmp2.get(i).equals("+")) {
+                        float tmp = subtest.get(i) + subtest.get(i+1);
+                        subtest.set(i, tmp);
+                        subtest.remove(i+1);
+
+                    }
+                    if (tmp2.get(i).equals("-")) {
+                        float tmp = subtest.get(i) - subtest.get(i+1);
+                        subtest.set(i, tmp);
+                        subtest.remove(i+1);
+                    }
                 }
-                if (tmp2.get(i).equals("-")) {
-                    float tmp = subtest.get(i) - subtest.get(i+1);
-                    result = result + tmp;
+                else {
+                    if (tmp2.get(i).equals("+")) {
+                        float tmp = subtest.get(i) + subtest.get(i+1);
+                        result = result + tmp;
+                    }
+                    if (tmp2.get(i).equals("-")) {
+                        float tmp = subtest.get(i) - subtest.get(i+1);
+                        result = result + tmp;
+                    }
                 }
             }
             eNT.setText(Float.toString(result));
